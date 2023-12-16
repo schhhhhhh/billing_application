@@ -1,0 +1,4 @@
+*.app_env
+bin/
+lib/
+*.sqlite3
