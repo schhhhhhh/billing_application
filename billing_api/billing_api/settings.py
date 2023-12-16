@@ -87,7 +87,8 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'billing_api.wsgi.application'
+# WSGI_APPLICATION = 'billing_api.wsgi.application'
+WSGI_APPLICATION = 'billing_api.wsgi.app'
 
 
 # Database
