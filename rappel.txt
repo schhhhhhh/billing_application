@@ -1,0 +1,4 @@
+1 Installation de postgre
+	pip install psycopg2-binary
+
+2 On crée un fichier vercel.json

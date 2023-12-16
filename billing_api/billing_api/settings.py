@@ -52,7 +52,8 @@ INSTALLED_APPS = [
 
 
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:4200"
+    "http://localhost:4200",
+    "https://client-billing.vercel.app"
 ]
 
 ALLOWED_HOSTS=['*']
@@ -93,6 +94,7 @@ WSGI_APPLICATION = 'billing_api.wsgi.application'
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
 import dj_database_url
+from decouple import config
 
 
 DATABASES = {
@@ -102,7 +104,8 @@ DATABASES = {
     }
 }
 
-DATABASES['default'] = dj_database_url.parse('mysql://root@localhost/django_api_db_fact_1')
+# DATABASES['default'] = dj_database_url.parse('mysql://root@localhost/django_api_db_fact_1')
+DATABASES['default'] = dj_database_url.config() #Returns configured DATABASE dictionary from DATABASE_URL.
 
 
 
@@ -141,6 +144,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
 STATIC_URL = 'static/'
+STATIC_ROOT = BASE_DIR / "staticfiles" / "static"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
