@@ -9,6 +9,6 @@ class InvoiceAdmin(admin.ModelAdmin):
 admin.site.register(Invoice, InvoiceAdmin) 
 
 class InvoiceLineAdmin(admin.ModelAdmin):  
-    list_display = ('invoice', 'produit', 'quantity') # liste les champs que nous voulons sur l'affichage de la liste
+    list_display = ('invoice', 'product', 'quantity') # liste les champs que nous voulons sur l'affichage de la liste
 
 admin.site.register(InvoiceLine, InvoiceLineAdmin) 

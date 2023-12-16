@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from rest_framework import generics
+from rest_framework.permissions import IsAuthenticated
 
 
 from category_app.models import Category
@@ -8,6 +9,8 @@ from category_app.serializers import CategorySerializer
 # Create your views here.
 
 class ListView(generics.ListAPIView):
+    # Nous avons simplement à appliquer la permission sur le ListAPIViews
+    # permission_classes = [IsAuthenticated]
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
 
