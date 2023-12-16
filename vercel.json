@@ -3,12 +3,12 @@
     "version": 2,
     "builds": [
       {
-        "src": "/billing_api/billing_api/wsgi.py",
+        "src": "billing_api/wsgi.py",
         "use": "@vercel/python",
         "config": {"maxLambdaSize": "15mb", "runtime": "python3.9"}
       },
       {
-        "src": "build_files.sh",
+        "src": "billing_api/build_files.sh",
         "use": "@vercel/static-build",
         "config": {
           "distDir": "staticfiles"
@@ -18,7 +18,7 @@
     "routes": [
       {
         "src": "/(.*)",
-        "dest": "billing_api/billing_api/wsgi.py"
+        "dest": "billing_api/wsgi.py"
       },
       {
         "src": "/static/(.*)",
