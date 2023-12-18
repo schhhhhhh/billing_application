@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'product_app',
     'customer_app',
     'invoice_app',
+    'user',
 
     'corsheaders',
     'rest_framework',
