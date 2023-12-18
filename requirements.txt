@@ -6,8 +6,10 @@ djangorestframework
 djangorestframework-simplejwt
 psycopg2-binary
 PyJWT
+PyMySQL
 python-decouple
 pytz
 sqlparse
 typing_extensions
 tzdata
+whitenoise
