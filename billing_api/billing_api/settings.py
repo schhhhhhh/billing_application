@@ -99,16 +99,30 @@ import dj_database_url
 from decouple import config
 
 
-DATABASES = {
+""" DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
     }
-}
+} """
 
-DATABASES['default'] = dj_database_url.parse('mysql://root@localhost/django_api_db_fact_1')
+# DATABASES['default'] = dj_database_url.parse('mysql://root@localhost/django_api_db_fact_1')
 # DATABASES['default'] = dj_database_url.config() #Returns configured DATABASE dictionary from DATABASE_URL.
 
+DATABASES = {
+    'default': {
+        # 'ENGINE': 'django.db.backends.postgresql',
+        "ENGINE": "django.db.backends.postgresql_psycopg2",
+        "NAME": "postgres",
+        "USER": "postgres",
+        "PASSWORD": "XYwWr23Vx!jD3d@",
+        "HOST": "db.lqgdfelmkxkoomgemtyc.supabase.co",
+        # "URL": env("POSTGRES_URL"),
+        "PORT": "5432"
+        # 'ENGINE': 'django.db.backends.sqlite3',
+        # 'NAME': BASE_DIR / 'db.sqlite3',
+    }
+}
 
 
 # Password validation
