@@ -1,6 +1,8 @@
 from django.shortcuts import render
 from rest_framework import generics
 from django.shortcuts import get_object_or_404
+from rest_framework.permissions import IsAuthenticated
+
 
 from product_app.models import Product
 from category_app.models import Category
@@ -13,16 +15,20 @@ from rest_framework.generics import CreateAPIView, UpdateAPIView
 
 
 class ListView(generics.ListAPIView):
+    permission_classes = [IsAuthenticated]
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
 
 
 class DetailView(generics.RetrieveAPIView):
+    permission_classes = [IsAuthenticated]
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
 
 class ProductCreateView(CreateAPIView):
+    permission_classes = [IsAuthenticated]
     queryset = Product.objects.all()
+    
     serializer_class = ProductSerializer
 
     def perform_create(self, serializer):
@@ -38,6 +44,7 @@ class ProductCreateView(CreateAPIView):
 
 
 class ProductUpdateView(UpdateAPIView):
+    permission_classes = [IsAuthenticated]
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
 
@@ -53,5 +60,6 @@ class ProductUpdateView(UpdateAPIView):
         serializer.save(category=category)
 
 class DeleteView(generics.DestroyAPIView):
+    permission_classes = [IsAuthenticated]
     queryset = Product.objects.all()
     serializer_class = ProductSerializer

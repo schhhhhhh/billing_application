@@ -105,8 +105,8 @@ DATABASES = {
     }
 }
 
-# DATABASES['default'] = dj_database_url.parse('mysql://root@localhost/django_api_db_fact_1')
-DATABASES['default'] = dj_database_url.config() #Returns configured DATABASE dictionary from DATABASE_URL.
+DATABASES['default'] = dj_database_url.parse('mysql://root@localhost/django_api_db_fact_1')
+# DATABASES['default'] = dj_database_url.config() #Returns configured DATABASE dictionary from DATABASE_URL.
 
 
 

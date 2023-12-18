@@ -2,6 +2,7 @@ import decimal
 from django.shortcuts import render
 from rest_framework import generics
 from rest_framework.response import Response
+from rest_framework.permissions import IsAuthenticated
 from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import get_object_or_404
 from django.http import JsonResponse
@@ -17,6 +18,8 @@ from product_app.models import Product
 # Create your views here.
 
 class InvoiceView(View):
+
+    permission_classes = [IsAuthenticated]
     
     def saveInvoiceLine(self, product_id, invoice_id, quantity):
 
@@ -164,13 +167,16 @@ class InvoiceView(View):
     
 
 class ListView(generics.ListAPIView):
+    permission_classes = [IsAuthenticated]
     queryset = Invoice.objects.all()
     serializer_class = InvoiceSerializer
 
 class DetailView(generics.RetrieveAPIView):
+    permission_classes = [IsAuthenticated]
     queryset = Invoice.objects.all()
     serializer_class = InvoiceSerializer
 
 class DeleteView(generics.DestroyAPIView):
+    permission_classes = [IsAuthenticated]
     queryset = Invoice.objects.all()
     serializer_class = InvoiceSerializer
