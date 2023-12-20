@@ -5,8 +5,8 @@ from product_app.views import DeleteView, DetailView, ListView, ProductCreateVie
 urlpatterns = [
     path('product/', ListView.as_view(), name='list-View'),
     path('product/<int:pk>/', DetailView.as_view(), name='detail-View'),
-    path('categories/<int:category_id>/products/create/', ProductCreateView.as_view(), name='product-create'),
-    path('categories/<int:category_id>/products/<int:pk>/update/', ProductUpdateView.as_view(), name='product-update'),
+    path('product/category/<int:category_id>/create/', ProductCreateView.as_view(), name='product-create'),
+    path('product/<int:pk>/category/<int:category_id>/update/', ProductUpdateView.as_view(), name='product-update'),
     path('product/delete/<int:pk>/', DeleteView.as_view(), name='delete-View'),
 
 ]

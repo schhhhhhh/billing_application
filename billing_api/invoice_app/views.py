@@ -4,6 +4,10 @@ from rest_framework import generics
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from django.views.decorators.csrf import csrf_exempt
+from rest_framework.decorators import api_view
+from rest_framework import status
+from drf_yasg.utils import swagger_auto_schema
+from drf_yasg import openapi
 from django.shortcuts import get_object_or_404
 from django.http import JsonResponse
 from django.views import View
@@ -84,6 +88,28 @@ class InvoiceView(View):
 
 
     @csrf_exempt
+    @swagger_auto_schema(
+    method='post',
+    request_body=openapi.Schema(
+        type=openapi.TYPE_OBJECT,
+        properties={
+            'products': openapi.Schema(
+                type=openapi.TYPE_ARRAY,
+                items=openapi.Schema(
+                    type=openapi.TYPE_OBJECT,
+                    properties={
+                        'quantity': openapi.Schema(type=openapi.TYPE_INTEGER),
+                        'id': openapi.Schema(type=openapi.TYPE_INTEGER),
+                    }
+                )
+            ),
+            'customer_id': openapi.Schema(type=openapi.TYPE_INTEGER),
+        },
+        required=['products', 'customer_id'],
+    ),
+    responses={200: 'Example response description'}
+    )
+    @api_view(['POST'])
     def createInvoice(request, customer_id):
 
         body_unicode = request.body.decode('utf-8')
@@ -117,8 +143,44 @@ class InvoiceView(View):
             # return JsonResponse({'message': 'Invoice created successfully', 'invoice': invoice.id})
             # return JsonResponse({'message': 'Invoice created successfully', 'invoice': invoice_serializer.data})
             return JsonResponse(invoice_serializer.data, safe=False)
+            
+        # Si la méthode HTTP n'est ni POST ni PUT , renvoyer une erreur
+        error_data = {'error': 'Invalid request method'}
+        return JsonResponse(error_data, status=400)
+    
+
+    @csrf_exempt
+    @swagger_auto_schema(
+    method='put',
+    request_body=openapi.Schema(
+        type=openapi.TYPE_OBJECT,
+        properties={
+            'products': openapi.Schema(
+                type=openapi.TYPE_ARRAY,
+                items=openapi.Schema(
+                    type=openapi.TYPE_OBJECT,
+                    properties={
+                        'quantity': openapi.Schema(type=openapi.TYPE_INTEGER),
+                        'id': openapi.Schema(type=openapi.TYPE_INTEGER),
+                    }
+                )
+            ),
+            'invoice_id': openapi.Schema(type=openapi.TYPE_INTEGER),
+        },
+        required=['products', 'invoice_id'],
+    ),
+    responses={200: 'Facture mise à jour avec succes'}
+    )
+    @api_view(['PUT'])
+    def updateInvoice(request, invoice_id):
+
+        body_unicode = request.body.decode('utf-8')
+        body = json.loads(body_unicode)
+
+        # Récupérer la liste des produits correspondants
+        products = body['products']
         
-        elif request.method == 'PUT':
+        if request.method == 'PUT':
 
             # Récupérer l'id de la facture correspondante
             invoice_id = body['invoice_id']
@@ -147,7 +209,9 @@ class InvoiceView(View):
         error_data = {'error': 'Invalid request method'}
         return JsonResponse(error_data, status=400)
     
+
     @csrf_exempt
+    @api_view(['PUT'])
     def invoicePayment(request, invoice_id):
         if request.method == 'PUT':
             # Récupérer la facture correspondant
