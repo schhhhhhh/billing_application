@@ -230,10 +230,30 @@ class InvoiceView(View):
         return JsonResponse(error_data, status=400)
     
 
-class ListView(generics.ListAPIView):
+""" class ListView(generics.ListAPIView):
     permission_classes = [IsAuthenticated]
-    queryset = Invoice.objects.all()
+    # queryset = Invoice.objects.all()
+    queryset = Invoice.objects.filter(status=True)
+
+    serializer_class = InvoiceSerializer """
+
+class ListView(generics.ListAPIView):
     serializer_class = InvoiceSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        # Récupérer la valeur du paramètre de requête 'status'
+        status_param = self.request.query_params.get('status', None)
+
+        # Filtrer le queryset en fonction de la valeur du paramètre 'status'
+        if status_param is not None:
+            status = (status_param.lower() == 'true')
+            queryset = Invoice.objects.filter(status=status)
+        else:
+            # Si le paramètre 'status' n'est pas fourni, renvoyer le queryset par défaut
+            queryset = Invoice.objects.all()
+
+        return queryset
 
 class DetailView(generics.RetrieveAPIView):
     permission_classes = [IsAuthenticated]

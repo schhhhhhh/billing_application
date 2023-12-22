@@ -10,4 +10,4 @@ class Category(models.Model):
     date_updated = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return self.designation
+        return str(self.id)
