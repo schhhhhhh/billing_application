@@ -45,7 +45,7 @@ class InvoiceView(View):
         # return JsonResponse({'message': 'Product created successfully', 'invoiceLine': invoiceLine})
         return invoiceLine
     
-    def saveInvoice(self, customer_id):
+    def saveInvoice(self, customer_id, user):
         # Récupérer le customer correspondant
         customer = get_object_or_404(Customer, id = customer_id)
 
@@ -55,6 +55,7 @@ class InvoiceView(View):
             amount_ht = 00.00,
             amount_tva = 00.00,
             amount_ttc = 00.00,
+            created_by=user
         )
 
         # Retourner une réponse JSON indiquant que le invoiceLine a été créé avec succès
@@ -116,6 +117,7 @@ class InvoiceView(View):
         body = json.loads(body_unicode)
 
         # print(f"\n {request.body.decode('utf-8')}")
+        print(f"\n {request.user}")
         # print(f"\n {request.body}")
         # print(f"\n {products}")
 
@@ -128,7 +130,7 @@ class InvoiceView(View):
         if request.method == 'POST':
 
             # Sauvegarder et récupérer la facture correspondante
-            invoice = InvoiceView.saveInvoice(InvoiceView, customer_id)
+            invoice = InvoiceView.saveInvoice(InvoiceView, customer_id, request.user)
             # Créer les ligne factures
             for product in products:
                 InvoiceView.saveInvoiceLine(InvoiceView, product['id'], invoice.id, product['quantity'])
@@ -190,6 +192,9 @@ class InvoiceView(View):
             invoice_lines = InvoiceLine.objects.filter(invoice_id = invoice_id)
             invoice_lines.delete()
 
+            invoice.updated_by = request.user
+            invoice.save()
+
             # Créer les ligne factures
             for product in products:
                 InvoiceView.saveInvoiceLine(InvoiceView, product['id'], invoice_id, product['quantity'])
@@ -219,6 +224,8 @@ class InvoiceView(View):
             
             # Modifier le statut à true
             invoice.status = True
+            # invoice.updated_by = request.user
+            invoice.validate_by = request.user
             invoice.save()
 
             invoice_serializer = InvoiceSerializer(invoice, many=False)

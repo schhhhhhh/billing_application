@@ -13,7 +13,7 @@ class ListView(generics.ListAPIView):
     serializer_class = CustomerSerializer
 
 class DetailView(generics.RetrieveAPIView):
-    permission_classes = [IsAuthenticated]
+    # permission_classes = [IsAuthenticated]
     queryset = Customer.objects.all()
     serializer_class = CustomerSerializer
 
@@ -23,11 +23,11 @@ class CreateView(generics.CreateAPIView):
     serializer_class = CustomerSerializer
 
 class UpdateView(generics.UpdateAPIView):
-    permission_classes = [IsAuthenticated]
+    # permission_classes = [IsAuthenticated]
     queryset = Customer.objects.all()
     serializer_class = CustomerSerializer
 
 class DeleteView(generics.DestroyAPIView):
-    permission_classes = [IsAuthenticated]
+    # permission_classes = [IsAuthenticated]
     queryset = Customer.objects.all()
     serializer_class = CustomerSerializer

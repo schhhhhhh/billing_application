@@ -11,6 +11,8 @@ from product_app.models import Product
 
 from customer_app.models import Customer
 
+from django.contrib.auth.models import User
+
 # Create your models here.
 
 class Invoice(models.Model):
@@ -21,6 +23,10 @@ class Invoice(models.Model):
     amount_ttc = models.DecimalField(max_digits=20, decimal_places=2)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    created_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, editable=False, related_name='created_invoices')
+    updated_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, editable=False, related_name='updated_invoices')
+    validate_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, editable=False, related_name='validate_invoices')
+
 
     def __str__(self):
         return str(self.amount_ttc) + ' ' + self.customer.name
